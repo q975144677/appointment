@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8" />
+<title>Insert title here</title>
+</head>
+<body><div th:replace = "include/header::header"></div>
+<nav th:replace="include/nav::nav"></nav>
+<table>
+<tr>
+<td>预约</td>
+<td>时间</td>
+<td>状态</td>
+</tr>
+<tr th:each = "a:${list}">
+<td th:text = "${a.itemName}"></td>
+<td th:text = "${a.time}"></td>
+<td th:text = "${a.status}"></td>
+</tr>
+</table>
+</body>
+</html>

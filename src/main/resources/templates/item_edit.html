@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8" />
+<title>Insert title here</title>
+</head>
+<body>
+<div th:replace = "include/header::header"></div>
+<div th:replace = "include/controlNav::controlNav"></div>
+<form method = "post" action = "item_update">
+该项目的名字<input type="text" name = "name" />
+<input type="hidden" name = "id" th:value = "${id}" />
+<input type="submit" />
+</form>
+<a th:href="@{item(cid=${cid})}">返回上一页</a>
+</body>
+</html>

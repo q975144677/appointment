@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8" />
+<title>Insert title here</title>
+</head>
+<body>
+<div th:replace = "include/header::header"></div>
+<div th:replace = "include/controlNav::controlNav"></div>
+<style>
+td{
+width:200px;
+}
+</style>
+//新增也应该判断 是否 存在该日期 但是没有做
+<div th:replace = "include/header::header"></div>
+<table class = "table  table-striped">
+<tr><td>日期</td><td>对应周几</td></tr>
+<tr th:each = "d : ${dates}">
+	<td th:text = "${d.newDate}"></td>
+	<td th:text = "${d.dayOfWeek}"></td>
+</tr>
+</table>
+<form action = "date_insert">
+格式为 2018-02-03 诸如此类
+在 实际中 用下拉框 避免格式错误
+<input type = "text" placeholder="start" name = "start">
+ <input type = "text" placeholder="end" name = "end">
+ <input type = "submit">
+</form>
+</body>
+</html>

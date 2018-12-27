@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8" />
+<title>Insert title here</title>
+</head>
+<body  th:fragment = "forenav">
+<style>
+
+div a{
+text-decoration: none;
+}</style>
+<nav class = "nav" style = "height:50px;background:#393D49">
+<div style = "position:absolute;top:10px;"><a href="homePage" style = "color : #01AAED;padding:20px;font-size:20px;font-family:'微软雅黑';" >logo 的位置</a>
+<span style = "color : #01AAED;padding:20px;font-size:20px;font-family:'微软雅黑';" th:if = "${session.user}">
+<span style = "color : #01AAED;padding:20px;font-size:20px;font-family:'微软雅黑';"  th:text = "${session.user.name}"></span>
+<a href="logout" style = "color : #01AAED;padding:20px;font-size:20px;font-family:'微软雅黑';" >退出</a>
+<a href="foreMyAppointment"  style = "color : #01AAED;padding:20px;font-size:20px;font-family:'微软雅黑';" >我的预约</a>
+</span>
+<a  style = "color : #01AAED;padding:20px;font-size:20px;font-family:'微软雅黑';" href="login" th:unless = "${session.user}">请登录</a>
+<a style = "color : #01AAED;padding:20px;font-size:20px;font-family:'微软雅黑';"  href="regist">注册一个新账户</a>
+</div>
+</nav>
+</body>
+</html>

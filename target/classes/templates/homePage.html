@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" style = "height:100%">
+<head>
+<meta charset="UTF-8" />
+<title>Insert title here</title>
+</head>
+<body style = "height:100%">
+<style>
+.cname2{
+display:block;
+margin:20px 0px ;
+color :white;
+
+}
+.cname2:hover {
+	color:#FF5722;
+	text-decoration: none;
+}
+.div div{
+
+}
+.item{
+width:100px;
+height:150px;
+background:white;
+float:left;
+margin:30px;
+border:5px solid #c2c2c2 ; 
+
+}
+.item:hover{
+background:#5FB878;
+}
+.left-on{
+
+}
+</style>
+<div th:replace = "include/header::header"></div>
+<nav th:replace="include/nav::nav"></nav>
+<div style = "height:100%;" class=  "div">
+<div style = "height:100%;;width:100px;position:absolute;; " class = "left-on" ></div>
+
+<div style = "height:100%;border:1px solid black;width:100px;background : #393D49;position:absolute " class = "left-nav">
+<div style = "color:white;font-size:20px;">分类菜单</div>
+<div th:each="c:${categories}" class = "category">
+<a th:href = "@{foreItem(cid=${c.id})}" class = "cname2"><span class=  "cname" th:text = "${c.name}" style = "font-size:16px;"></span></a>
+</div>
+</div>
+<div style = "width:60%;margin:0px auto;overflow:hidden;position:relative;left:30px;border: 1px solid black;">
+<div th:each="i : ${items}"  class ="item" style = "text-align:center">
+<a th:href = "@{appoint(iid=${i.id})}">
+<button style = "width:100%;height:100%;background:transparent;">
+<div style = "position:relative;top:-20px;">
+<span th:text = "${i.category.name}" ></span>
+<br>
+<span th:text = "${i.name}" style = "position:relative;top:40px;"> </span>
+</div>
+
+</button>
+</a>
+</div>
+</div>
+
+</div>
+</body>
+
+<script>
+$(function(){
+
+$(".left-nav").hide();
+$(".left-on").mouseover(function(){
+	
+	$(this).hide();
+	$(".left-nav").fadeToggle();
+	
+});
+$(".left-nav").mouseleave(function(){
+	$(".left-nav").fadeToggle(function(){
+		$(".left-on").show();
+		
+	});
+	
+	
+});
+});
+
+
+</script>
+</html>

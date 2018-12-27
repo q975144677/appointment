@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8" />
+<title>Insert title here</title>
+</head>
+<body><div th:replace = "include/header::header"></div>
+<nav th:replace="include/nav::nav"></nav>
+<div th:each= "i:${items}">
+
+<div style = "width:300px;height:130px;border:1px solid black;;" ><a th:href="@{appoint(iid=${i.id})}">
+<span th:text = "${i.name}"></span></a></div>
+</div>
+</body>
+</html>

@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8" />
+<title>Insert title here</title>
+</head>
+<body>
+<div th:replace = "include/header::header"></div>
+<nav th:replace="include/nav::nav"></nav><span th:text = "${session.user.getId()}"></span>
+<!--  //如果没登陆的话 应该会有拦截器不让用户进入这个页面 ，但是我还没做-->
+<form action = "foreAppointment_check" method = "post">
+<input type="hidden" name = "iid" th:value = "${iid}"/><br /><input type="hidden" name = "uid" th:value = "${uid}"/><br />
+<input type = "hidden" name = "status" value = "wait">
+请选择你要预约的时间<input type="text" name = "time"/><br /><br />//这里感觉要有一张时间表最好，但是因为是草图 所以就没做 <br />
+<input type="submit" />
+</form>
+</body>
+</html>

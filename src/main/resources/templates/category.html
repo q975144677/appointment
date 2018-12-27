@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8" />
+<title>Insert title here</title>
+</head>
+<body><div th:replace = "include/header::header"></div>
+<div th:replace = "include/controlNav::controlNav"></div>
+<table class  = "table">
+<tr>
+<td>id</td>
+<td>名字</td>
+<td>可预约的项目</td>
+<td>修改</td>
+<td>删除</td>
+</tr>
+<tr th:each="c:${list}">
+<td th:text  = "${c.id}"></td>
+<td th:text  = "${c.name}"></td>
+<td><a th:href="@{item(cid=${c.id})}">可预约的项目</a></td>
+<td><a th:href = "@{category_edit(id=${c.id})}">修改</a></td>
+<td><a th:href="@{category_delete(id =${c.id})}">删除</a></td>
+</tr>
+</table>
+<form action = "category_insert">
+<input type = "text" name = "name" />
+<input type = "submit">
+</form>
+</body>
+</html>

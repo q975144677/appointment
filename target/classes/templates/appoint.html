@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8" />
+<title>Insert title here</title>
+</head>
+<body>
+<div th:replace = "include/header::header"></div><nav th:replace="include/nav::nav"></nav>	
+<style>
+.float div{
+width:200px;
+height:30px;
+border:1px solid black; 
+}
+.float .left{
+float:left;
+}
+.clear{
+clear: both;
+}
+.form select{
+width:300px;
+float:left;
+margin-right:90px
+}
+.form input{
+width:200px;
+float:left;margin-right:90px;
+}
+.form span{
+position:relative;float:left;
+top:5px;
+}
+.bc{
+background:#c2c2c2
+
+
+}
+.cbc{
+background: #f2f2f2
+}
+
+</style>
+
+<h1><center><span th:text = "${c.name}"></span><span th:text = "${item.name}"></span>教室预约表</center></h1>
+
+
+<form style = "margin-left:100px;" class = "form form-line" action="insert" role="form">
+ <div class="form-group">
+	<span>选择时间段：</span><select name="tid"  class = "form-control">
+		<option th:each =  "a:${list3}" th:value="${a.id}" th:text = "${a.time}" ></option>
+	</select>
+	</div>
+	 <div class="form-group">
+	<span>选择日期：</span><select name = "did" class = "form-control">
+	<option th:each = "d:${list}"  th:text = "${d.newDate}"  th:value = "${d.id}"> 
+	</option>
+	</select>
+	</div>
+	<span>选择理由： </span><div class="form-group">
+	<input class = "form-control" type="text" name = "reason"/>
+	<input type = "hidden" name = "status" value = "wait"/>
+	<input type = "hidden" name = "date" th:value = "${date}">
+	</div>
+		<input class = "form-control" type="submit" disabled = "disabled"th:unless= "${session.user}"/>
+	<input class = "form-control" type="submit" th:if = "${session.user}"/>
+	<input type = "hidden" name=  "iid" th:value = "${item.id}">
+	<input type="hidden" th:if = "${session.user}" name = "uid" th:value = "${session.user.id}"/>
+</form>
+<br>
+<!-- 
+<div class = "float" style = "margin-left : 30px;">
+<div class="left">
+<div style = "width:100px;">时间段
+</div>
+<div  style = "width:150px;" th:each = "t:${list3}" th:text = "${t.time}"></div>
+</div>
+<div class="left" style = "border:1px solid black;" th:each = "dt:${list}">
+<div  class="left">	
+<span  th:text = "${dt.newDate}" style = "background:#ACD6FF">
+</span>
+<div  th:each="t:${dt.times}">
+<div  th:text = "暂无预约" style = "border:1px dotted black;" style = "background : lightgrey " th:unless="${service.get(t.id,dt.id)}"></div>
+<div  th:text = "${service.get(t.id,dt.id).name}" style = "border:1px dotted black;" style = "background : red" th:if="${service.get(t.id,dt.id)}"></div>
+</div>
+</div>
+
+</div>
+</div>
+ -->
+<table class = "table table-bordered" style = "margin-top:66px;">
+<tr>
+	<td style = "background:#009688">时间段</td>
+	<td style = "background:#5FB878"  th:each =  "dt:${list}" th:text = 	"${dt.newDate}"></td>
+</tr>
+<tr th:each = "t:${list3}">
+<td style = "background:#2F4056;color:white;" th:text = "${t.time}"></td>
+<td  th:each = "d : ${list}" th:class="${service.get(t.id,d.id,item.id)}?'bc can':'cbc can'">
+<div th:text = "${service.get(t.id,d.id,item.id).reason}"  style = ""  th:if="${service.get(t.id,d.id,item.id)}">2</div>
+<div th:attr = "data-did = ${d.id},data-tid=${t.id},data-time = ${t.time},data-date = ${d.newDate}" class = "canAppoint" th:text = "可预约"  th:unless="${service.get(t.id,d.id,item.id)}" style = "">3</div>
+</td>
+</tr>
+</table>
+
+<div style = "width:500px ; margin:0px auto;">
+<a th:href="@{appoint(iid=${item.id},newDate=${previous})}" th:if = "${flag==0}" >
+<button  disabled = "disabled" class= "btn btn-default" th:text = "上一周+---+${previous}"></button>
+</a>
+
+<a th:unless = "${flag==0}" th:href="@{appoint(iid=${item.id},newDate=${previous})}"  >
+<button   class= "btn btn-default" th:text = "上一周+---+${previous}"></button>
+</a>
+
+<span th:text = "${now}"></span>
+
+<a th:href="@{appoint(iid=${item.id},newDate=${next})}"  >
+<button class = "btn btn-default" th:text = "下一周+---+${next}" th:if = "${flag == 1}" disabled = "disabled"></button>
+
+<button class = "btn btn-default" th:text = "下一周+---+${next}" th:unless = "${flag == 1}" ></button>
+
+</a>
+
+
+</div>
+<div>
+<div style = "width:400px;margin:50px auto;">
+<form class = "form">
+<input type = "hidden" th:value = "${item.id}" name = "iid" class=  "form-control">
+<input type = "text" name = "newDate" class = "form-control" placeholder = " 格式如 2018-01-01">
+<input type = "submit"  class = "btn">
+</form>
+</div>
+</div>
+
+  
+        
+
+
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+<div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button data-dismiss="modal" class="close" type="button"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+            <h4 class="modal-title">预约</h4>
+          </div>  
+             <form action  = "insert" >
+       
+          <div class="modal-body"> 
+          
+            <p>原因描述</p>
+            <textarea name = "reason" class="form-control"></textarea>
+        
+          <div class="modal-footer">
+       		     <input type = "hidden" name = "tid" id = "tid" />
+        		 <input type = "hidden" name = "did" id = "did" />
+        		 <input type = "hidden" name = "status" value = "wait"/>
+        	  <span th:unless = "${session.user}">您还没有登陆</span>
+        	    <input type = "button" data-dismiss="modal" class="btn btn-default" type="button" value = "关闭">
+         		<input type = "hidden" name=  "iid" th:value = "${item.id}">
+         		<input type = "hidden" name  = "date" th:value = "${date}">
+				<input type="hidden" th:if = "${session.user}" name = "uid" th:value = "${session.user.id}"/>
+	
+	 		   <button class="btn btn-primary" type="button" disabled = "disabled" th:unless = "${session.user}">提交</button>
+       	     <input type = "submit" class="btn btn-primary" th:if = "${session.user}" value = "提交">
+         
+          </div>   
+        	
+            </div>
+            </form>	
+        </div><!-- /.modal-content --> 
+  
+      </div><!-- /.modal-dialog -->
+</div>
+ 
+</body>
+<script th:inline="javascript">
+$(function(){
+	var next = [[${next}]];//下一个 时间
+	var previous = [[${previous}]];
+	$(".can").mouseover(function(){
+	
+		
+		
+	});
+	$(".canAppoint").parent().click(function(){
+	 var date = $(this).find(".canAppoint").data("date");
+	 var time = $(this).find(".canAppoint").data("time");
+	 var did = $(this).find(".canAppoint").data("did");
+	 var tid = $(this).find(".canAppoint").data("tid");
+	
+	var x = confirm("确定预约"+date+"的"+time);
+		if(x){
+			$("#myModal").modal('show');
+			var a = $("#myModal").find("#did");
+			a.val(did);
+			$("#myModal").find("#tid").val(tid);
+			
+		}
+	});
+	
+	$(".canAppoint").parent().mouseover(function(){
+	
+		$(".canAppoint").parent().css("background-color","#f2f2f2");	
+		$(this).css("background-color","#FFB800");
+	
+	});
+	
+
+	
+});
+
+
+</script>
+</html>

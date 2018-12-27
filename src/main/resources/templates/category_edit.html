@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8" />
+<title>Insert title here</title>
+</head>
+<body>
+<div th:replace = "include/header::header"></div>
+<div th:replace = "include/controlNav::controlNav"></div>
+<form action = "category_update" method = "post">
+请输入要修改的名字<input type="text" name = name />
+<input type="hidden" name = "id" th:value = "${id}" />
+<input type="submit" />
+
+</form>
+<a href="category">返回主页</a>
+</body>
+</html>

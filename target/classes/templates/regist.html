@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8" />
+<title>Insert title here</title>
+</head>
+<body><div th:replace = "include/header::header"></div>
+<div th:replace = "include/nav::nav"></div>
+<style>
+.form-inline{
+width:700px;
+position:relative
+;
+left:50px;
+}
+.form-inline label{
+width:150px;
+position:relative;;
+top:20px
+}
+.form-inline input,label{
+margin-top:50px;
+}
+</style>
+<form action = "regist_check" method = "post" class = "form-inline" style = "margin:0px auto">
+<div class = "form-group"><label>
+请输入 账户名：</label><input id = "username" type = "text" name = "username" class = "form-control" style = "width:0200px;"><label id = "isUse"></label></div><br>
+<div class = "form-group"><label>
+请输入 密码： </label><input id = "password" type = "password" name=  "password" class = "form-control" style = "width:0200px;"><label id = "isPass"></label></div><br>
+<div class = "form-group"><label>
+请输入 昵称： </label><input id = "name" type = "text" name = "name" class = "form-control" style = "width:200px;"></div><br>
+<div class = "<form-></form->group">
+<input id= "submit" type = "submit" class = "btn btn-success" style  = "width:100px;"><input type = "reset" class = "btn btn-danger" style = "width:00100px;position:relative;left:140px"><label id = "hasName"></label></div>
+</form>
+<div align = "center" >
+<a href="homePage"  style = "position:relative;top:30px;"><button class = "btn btn-large">返回主页</button></a>
+</div>
+</body>
+<script>
+$(function(){
+ 
+	function strlen(str){
+	    var len = 0;
+	    for (var i=0; i<str.length; i++) { 
+	     var c = str.charCodeAt(i); 
+	    //单字节加1 
+	     if ((c >= 0x0001 && c <= 0x007e) || (0xff60<=c && c<=0xff9f)) { 
+	       len++; 
+	     } 
+	     else { 
+	      len+=2; 
+	     } 
+	    } 
+	    return len;
+	}
+	
+	
+	var flag = false;
+	var url = "regist_username_check";
+	
+	$("#password").keyup(function(){
+		var len = strlen($(this).val());
+		if(len<6){
+			$("#isPass").html("密码不可小于6位");
+			$("#isPass").css("color","red");
+		}
+		else
+			{
+			$("#isPass").html("");
+			$("#isPass").css("color","red");
+			}
+		
+	});
+	
+	
+	
+	
+	$("#submit").click(function(){
+	var password = $("#password").val();
+	if(!flag){
+		alert("账号未输入或已存在");
+		return false;
+	}
+	if(strlen(password)<6){
+		alert("密码不可以小于6位");
+		$("#isPass").html("密码不可小于6位");
+		$("#isPass").css("color","red");
+		return false;
+		
+	}
+	if($("#name").val() == ""){
+		alert("昵称不可以为空");
+		return false;
+	}
+	
+	});
+	$("#username").keyup(function(){
+	var username = $(this).val();
+	$.post(
+		url,
+		{"username":username},
+		function(result){
+			if(result == "false"){
+			$("#isUse").html("这个账号已经被使用了");
+			$("#isUse").css("color","red");
+			flag = false;
+		}
+			else
+				{
+				if(strlen($("#username").val())>5){
+				
+				$("#isUse").html("可以使用");
+				$("#isUse").css("color","green");
+				flag = true;
+				}
+				else
+					{	
+					$("#isUse").html("长度过短");
+					$("#isUse").css("color","red");
+					flag = false;
+					}
+				}
+		}
+	);
+		
+	});
+});
+</script>
+</html>

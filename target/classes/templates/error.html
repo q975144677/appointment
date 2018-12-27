@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8" />
+<title>Insert title here</title>
+</head>
+<body>
+<div th:replace= "include/nav::nav">
+
+</div>
+<style>
+.error div{
+padding:50px;
+}
+</style>
+<div style = "width:800px ; text-align: center ; margin:0px auto;border:5px solid lightgrey; " class = "error">
+<div th:text = "'发生错误------'+${e}"></div>
+<div th:text = "错误的地址为-----+${url}"></div>
+</div>
+</body>
+</html>
